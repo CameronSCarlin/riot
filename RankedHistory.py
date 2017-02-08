@@ -11,3 +11,9 @@ myRankedDF = pd.DataFrame.from_records(d)
 print myRankedDF['champion'].value_counts() # every champion I've played in ranked by ID (16=Soraka, 51 = Caitlyn)
 print myRankedDF['role'].value_counts() # Roles played in ranked
 print myRankedDF['season'].value_counts() # Games per season
+
+
+# cj6446 : 39756440
+# sonofdawn : 20305036
+# eindride : 37069330
+# zudrane : 21421711
