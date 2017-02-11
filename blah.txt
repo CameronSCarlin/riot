@@ -1,0 +1,11 @@
+#to make the following:
+curl --request GET 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/cj6446?api_key= <API KEY HERE>’ --include > blah.txt
+
+HTTP/1.1 200 OK
+Content-Type: application/json;charset=utf-8
+Vary: Accept-Encoding
+X-Rate-Limit-Count: 1:10,1:600
+Content-Length: 110
+Connection: keep-alive
+
+{"cj6446":{"id":39756440,"name":"cj6446","profileIconId":558,"revisionDate":1485753914000,"summonerLevel":30}}
