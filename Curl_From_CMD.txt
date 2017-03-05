@@ -1,4 +1,5 @@
-#to make the following:
+# To write an API call to a text file from Command line:
+
 curl --request GET 'https://na.api.pvp.net/api/lol/na/v1.4/summoner/by-name/cj6446?api_key= <API KEY HERE>’ --include > blah.txt
 
 HTTP/1.1 200 OK

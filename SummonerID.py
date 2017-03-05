@@ -4,7 +4,7 @@ import json
 # Riot API key from file
 keypath = "/Users/Cameron/Documents/AuthStuff/RiotAPI.txt"
 with open(keypath) as keyfile:
-    key = keyfile.readline()
+    key = keyfile.readline() # Reading my API key
 
 # Subset of my friends list
 friends = ['cj6446','sonofdawn','eindride', 'kittyyawns', 'aeousz', 'albertmayday', 'armweak', 'f4_Zudrane',
