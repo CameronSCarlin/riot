@@ -1,31 +1,59 @@
 library(shiny)
 
 shinyUI(fluidPage(
-  navbarPage("League of Legends Data Visualization",
-      tabPanel('1,000 Sample Game Data',
+  navbarPage("The Twisted Plotline: League of Legends Data Visualization",
+####### Overview #######
+             tabPanel('Overview',
+                      sidebarPanel(
+                        
+                      ),
+                      mainPanel(
+                        includeMarkdown('overview.md'),
+                        plotOutput('hist')
+                      )
+                    ),
+####### Teamwork #######
+      tabPanel('Teamwork: Kills vs. Assists',
                sidebarPanel(
-                 textInput(inputId = "num", 
-                           label = "Input Number", value=25),
-                 textInput(inputId = "summonerName", 
-                           label = "Input Summoner Name", value='cj6446'),
-                 textInput(inputId = "APIkey", 
-                           label = "Input API Key", value='secret key goes here')
+                 checkboxGroupInput(inputId = "fitline_teamwork",
+                               label = "Add Fitline to:",
+                               choiceNames = c('lose','win'),
+                               choices = c('Losing Team','Winning Team'))
                  ),
                mainPanel(
-                 textOutput('summ')
-                 )
+                 includeText('teamwork.txt')
+               )
                ),
-      tabPanel('Summoner Statistics',
+####### Champ Select #######
+      tabPanel('Champ Select: Your Choice Matters',
                sidebarPanel(
-                 textInput(
-                   inputId = "num", 
-                   label = "Choose a number", value=25)
+                 
                  ),
                mainPanel(
-                 plotOutput('hist')
-                 )
+                 includeText('champions.txt')
+               )
+    ),
+####### Gold #######
+    tabPanel('Game Time and Gold Generation',
+             sidebarPanel(
+               textInput(
+                 inputId = "num", 
+                 label = "Choose a number", value=25)
+             ),
+             mainPanel(
+               includeText('gold.txt')
+             )
+    ),
+####### ADC / Support #######
+    tabPanel('ADC and Support Synergy',
+             sidebarPanel(
                
-      
+             ),
+             mainPanel(
+               plotOutput('hist')
+             )
+             
+             
     )
   )
 )
