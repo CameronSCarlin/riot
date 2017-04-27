@@ -1,4 +1,7 @@
 library(shiny)
+library(plotly)
+library(ggplot2)
+library(GGally)
 
 shinyUI(fluidPage(
   navbarPage("The Twisted Plotline: League of Legends Data Visualization",
@@ -17,7 +20,6 @@ shinyUI(fluidPage(
                sidebarPanel(
                  checkboxGroupInput(inputId = "fitline_teamwork",
                                label = "Add Fitline to:",
-                               choiceNames = c('lose','win'),
                                choices = c('Losing Team','Winning Team'))
                  ),
                mainPanel(
@@ -45,12 +47,14 @@ shinyUI(fluidPage(
              )
     ),
 ####### ADC / Support #######
-    tabPanel('ADC and Support Synergy',
+    tabPanel('Player Differentiation Parallel Coordinates Plot',
              sidebarPanel(
-               
+               radioButtons('parcoordInput',label='Select Factor',
+                           choices = c('Win/Loss' = 'winner',
+                                       'Player Rank' = 'userRank'))
              ),
              mainPanel(
-               plotOutput('hist')
+               plotlyOutput("parcoordplot", height='750%', width='100%')
              )
              
              
