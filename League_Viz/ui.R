@@ -2,8 +2,9 @@ library(shiny)
 library(plotly)
 library(ggplot2)
 library(GGally)
+library(shinythemes)
 
-shinyUI(fluidPage(
+shinyUI(fluidPage(theme = shinytheme('flatly'),
   navbarPage("The Twisted Plotline: League of Legends Data Visualization",
 ####### Overview #######
              tabPanel('Overview',

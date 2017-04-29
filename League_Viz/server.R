@@ -5,7 +5,7 @@ library(GGally)
 
 shinyServer(function(input, output) {
   matchdf <- read.csv('matchdf.csv')
-  matchdf <- matchdf[c(runif(10000,0,1)>.75),]
+  matchdf <- matchdf[c(runif(10000,0,1)>.8),]
   matchdf$winner <- as.factor(matchdf$winner)
   ####### Overview #######
   
@@ -22,7 +22,7 @@ shinyServer(function(input, output) {
       ggparcoord(matchdf, c(7,8,9,12,13,14), groupColumn = input$parcoordInput,
                  scale='globalminmax',
                  title = 'What Differentiates Winning Players and Losing Players?',
-                 alpha= 0.02)+
+                 alpha= 0.04)+
         #scale_y_continuous(labels=comma)+
         #scale_x_discrete(labels=c('Comment','Like','Share','Total Interactions'))+
         ylab("Count")+
