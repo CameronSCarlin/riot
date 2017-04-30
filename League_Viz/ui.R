@@ -18,17 +18,18 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                     ),
 ####### Teamwork #######
       tabPanel('Teamwork: Kills vs. Assists',
+               plotlyOutput('teamwork'),
                sidebarPanel(
                  checkboxGroupInput(inputId = "fitline_teamwork",
-                               label = "Add Fitline to:",
-                               choices = c('Losing Team','Winning Team'))
+                               label = "Add Fitlines?",
+                               choices = c('Yes!'='fit'))
                  ),
                mainPanel(
                  includeText('teamwork.txt')
                )
                ),
 ####### Champ Select #######
-      tabPanel('Champ Select: Your Choice Matters',
+      tabPanel('Champion Select',
                sidebarPanel(
                  
                  ),
@@ -37,7 +38,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                )
     ),
 ####### Gold #######
-    tabPanel('Game Time and Gold Generation',
+    tabPanel("Gold's Value",
              sidebarPanel(
                textInput(
                  inputId = "num", 
@@ -48,14 +49,16 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
              )
     ),
 ####### ADC / Support #######
-    tabPanel('Player Differentiation Parallel Coordinates Plot',
+    tabPanel('Player Differentiation',
+             plotlyOutput("parcoordplot", height='500', width='auto'),
              sidebarPanel(
                radioButtons('parcoordInput',label='Select Factor',
-                           choices = c('Win/Loss' = 'winner',
-                                       'Player Rank' = 'userRank'))
+                           choices = c('Win vs. Loss' = 'Winner',
+                                       'Player Rank' = 'Rank',
+                                       'Champion Role' = 'Role'))
              ),
              mainPanel(
-               plotlyOutput("parcoordplot", height='750%', width='100%')
+               includeMarkdown('pcp.md')
              )
              
              
@@ -63,3 +66,8 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
   )
 )
 )
+
+
+
+
+
