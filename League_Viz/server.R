@@ -67,6 +67,9 @@ shinyServer(function(input, output) {
   ####### Champ Select #######
   
   matchdf2 <- read.csv('matchdf.csv', stringsAsFactors = FALSE)
+  matchdf2$winner <- as.factor(matchdf2$winner)
+  levels(matchdf2$winner) <- list('No'="0",'Yes'="1")
+  
   output$pickbanplot <- renderPlotly(
     
     if(input$pickban == "pick"){
@@ -132,15 +135,49 @@ shinyServer(function(input, output) {
   
   ####### Game Time #######
   
-  gametime <- matchdf[c("matchteamId", "matchDuration", "Winner", "Kills", "Deaths", "Assists", 
+  # teamstats <- function(x){
+  #   a <- c()
+  #   for(i in 1:nrow(matchdf[paste0(x,'ZeroToTen')])){
+  #     if(matchdf$matchDuration[i]/60-10 > 0){
+  #       a[i] <- matchdf[paste0(x,'ZeroToTen')][i,] * 10
+  #       if(matchdf$matchDuration[i]/60-20 > 0){
+  #         a[i] <- a[i] + matchdf[paste0(x,'TenToTwenty')][i,] * 10
+  #         if(matchdf$matchDuration[i]/60-30 > 0){
+  #           a[i] <- a[i] + matchdf[paste0(x,'TwentyToThirty')][i,] * 10
+  #           if(matchdf$matchDuration[i]/60-40 > 0){
+  #             a[i] <- a[i] + matchdf[paste0(x,'ThirtyToEnd')][i,] * 10
+  #           } else {
+  #             a[i] <- a[i] + matchdf[paste0(x,'TwentyToThirty')][i,] * (matchdf$matchDuration[i]/60 - 30)
+  #           }
+  #         } else {
+  #           a[i] <- a[i] + matchdf[paste0(x,'TenToTwenty')][i,] * (matchdf$matchDuration[i]/60 - 20)
+  #         }
+  #       } else {
+  #         a[i] <- a[i] + matchdf[paste0(x,'ZeroToTen')][i,] * (matchdf$matchDuration[i]/60 - 10)
+  #       }
+  #     } else {
+  #       a[i] <- a[i] + matchdf[paste0(x,'ZeroToTen')][i,] * (matchdf$matchDuration[i]/60)
+  #     }
+  #   }
+  #   return(a)
+  # }
+  # 
+  # matchdf["endGold"] <- teamstats('gold')
+  # matchdf["endDamage"] <- teamstats('damage')
+  # matchdf["endCreeps"] <- teamstats('creeps')
+  # matchdf["endXp"] <- teamstats('xp')
+  
+  
+  
+  gametime <- matchdf2[c("matchteamId", "matchDuration", "winner", "kills", "deaths", "assists", 
                         "endGold", "endDamage", "endCreeps", "endXp")]
   
   gametime <- gametime %>% 
-    group_by(matchteamId, matchDuration, Winner) %>% 
+    group_by(matchteamId, matchDuration, winner) %>% 
     summarise(teamGold = sum(endGold, na.rm = TRUE),
-              teamKills = sum(Kills, na.rm = TRUE),
-              teamDeaths = sum(Deaths, na.rm = TRUE),
-              teamAssists = sum(Assists, na.rm = TRUE),
+              teamKills = sum(kills, na.rm = TRUE),
+              teamDeaths = sum(deaths, na.rm = TRUE),
+              teamAssists = sum(assists, na.rm = TRUE),
               teamDamage = sum(endDamage, na.rm = TRUE),
               teamCreeps = sum(endCreeps, na.rm = TRUE),
               teamXp = sum(endXp, na.rm = TRUE)) %>%
@@ -148,7 +185,7 @@ shinyServer(function(input, output) {
   
   output$stats <- renderPlotly({
     ggplotly(
-    ggplot(gametime, aes_string("matchDuration", input$teamstats, color="Winner")) + geom_line() + 
+    ggplot(gametime, aes_string("matchDuration", input$teamstats, color="winner")) + geom_line() + 
       xlab("Match Duration (s)") + ylab("Team Stats") +
       theme(
         axis.title.x = element_text(),

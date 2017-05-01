@@ -32,7 +32,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
       tabPanel('Champion Select',
                fluidPage(
                  fluidRow(column(3,
-                                 radioButtons("pickban", label = h3("Team Statistics"),
+                                 radioButtons("pickban", label = h3("Champion Selection"),
                                               choices = list("Most Picked" = "pick", 
                                                              "Most Banned" = "ban"
                                                              ), 
