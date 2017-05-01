@@ -30,22 +30,31 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                ),
 ####### Champ Select #######
       tabPanel('Champion Select',
-               sidebarPanel(
-                 
-                 ),
-               mainPanel(
-                 includeText('champions.txt')
+               fluidPage(
+                 fluidRow(column(3,
+                                 radioButtons("pickban", label = h3("Team Statistics"),
+                                              choices = list("Most Picked" = "pick", 
+                                                             "Most Banned" = "ban"
+                                                             ), 
+                                              selected = "pick"),
+                                 includeText('champions.txt')),
+                          column(9, plotlyOutput('pickbanplot', height='700'))
+                 )
                )
     ),
-####### Gold #######
-    tabPanel("Gold's Value",
-             sidebarPanel(
-               textInput(
-                 inputId = "num", 
-                 label = "Choose a number", value=25)
-             ),
-             mainPanel(
-               includeText('gold.txt')
+####### Stats over Time #######
+    tabPanel("Stats over Time",
+               fluidPage(
+               fluidRow(column(3,
+               radioButtons("teamstats", label = h3("Team Statistics"),
+                            choices = list("Gold Earned" = "teamGold", "Creeps Killed" = "teamCreeps", 
+                                           "Damage Dealt" = "teamDamage", "Experience Gained" = "teamXp",
+                                           "Kills Total" = "teamKills", "Deaths Total" = "teamDeaths",
+                                           "Assists Total" = "teamAssists"), 
+                            selected = "teamGold"),
+               includeText('gold.txt')),
+               column(9, plotlyOutput('stats', height='700'))
+               )
              )
     ),
 ####### ADC / Support #######

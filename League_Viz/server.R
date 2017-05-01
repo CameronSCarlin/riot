@@ -2,6 +2,8 @@ library(shiny)
 library(ggplot2)
 library(plotly)
 library(GGally)
+library(dplyr)
+library(tidyr)
 
 shinyServer(function(input, output) {
   
@@ -64,7 +66,106 @@ shinyServer(function(input, output) {
                                 })
   ####### Champ Select #######
   
+  matchdf2 <- read.csv('matchdf.csv', stringsAsFactors = FALSE)
+  output$pickbanplot <- renderPlotly(
+    
+    if(input$pickban == "pick"){
+      tab <- table(matchdf2$championName)
+      tab_s <- sort(tab)
+      top10 <- tail(names(tab_s), 20)
+      d_s <- subset(matchdf2, championName %in% top10)
+      d_s$championName <- factor(d_s$championName, levels = rev(top10))
+      ggplotly(
+        ggplot(d_s, aes(x = championName, fill = factor(winner))) +
+        geom_bar() + xlab("Picked Champions") + ylab("Count") +
+          theme(
+            axis.title.x = element_text(),
+            axis.title.y = element_text(),
+            panel.background = element_blank(),
+            panel.grid.major = element_line(colour='grey'),
+            panel.border = element_rect(color = 'grey', fill=NA)
+          )
+      ) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+                   xaxis = list(tickangle = 30),
+                   legend = list(title = "Winner", orientation = "h", xanchor = "center",
+                                 yanchor = "top", y = -0.12, x = 0.54)) %>%
+        add_annotations( text="Winner", xref="paper", yref="paper",
+                         x=0.43, xanchor="center",
+                         y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
+    } else {
+      bandf <- matchdf2 %>% 
+        group_by(matchteamId, winner, ban1, ban2, ban3) %>%
+        summarise(teamGold = sum(endGold, na.rm = TRUE))
+      ban1 <- bandf[c("winner", "ban1")]
+      names(ban1) <- c("winner", "ban")
+      ban2 <- bandf[c("winner", "ban2")]
+      names(ban2) <- c("winner", "ban")
+      ban3 <- bandf[c("winner", "ban3")]
+      names(ban3) <- c("winner", "ban")
+      bandf <- rbind(ban1, rbind(ban2, ban3))
+      tab <- table(bandf$ban)
+      tab_s <- sort(tab)
+      top10 <- tail(names(tab_s), 20)
+      d_s <- subset(bandf, ban %in% top10)
+      d_s$ban <- factor(d_s$ban, levels = rev(top10))
+      ggplotly(
+        ggplot(d_s, aes(x = ban, fill = factor(winner))) +
+        geom_bar() + xlab("Banned Champions") + ylab("Count") +
+          theme(
+            axis.title.x = element_text(),
+            axis.title.y = element_text(),
+            panel.background = element_blank(),
+            panel.grid.major = element_line(colour='grey'),
+            panel.border = element_rect(color = 'grey', fill=NA)
+      )) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+                    xaxis = list(tickangle = 30),
+                    legend = list(title = "Winner", orientation = "h", xanchor = "center",
+                                  yanchor = "top", y = -0.12, x = 0.54)) %>%
+        add_annotations( text="Winner", xref="paper", yref="paper",
+                         x=0.43, xanchor="center",
+                         y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE) 
+    }
+  )
+  
+  
+  
+  
   ####### Game Time #######
+  
+  gametime <- matchdf[c("matchteamId", "matchDuration", "Winner", "Kills", "Deaths", "Assists", 
+                        "endGold", "endDamage", "endCreeps", "endXp")]
+  
+  gametime <- gametime %>% 
+    group_by(matchteamId, matchDuration, Winner) %>% 
+    summarise(teamGold = sum(endGold, na.rm = TRUE),
+              teamKills = sum(Kills, na.rm = TRUE),
+              teamDeaths = sum(Deaths, na.rm = TRUE),
+              teamAssists = sum(Assists, na.rm = TRUE),
+              teamDamage = sum(endDamage, na.rm = TRUE),
+              teamCreeps = sum(endCreeps, na.rm = TRUE),
+              teamXp = sum(endXp, na.rm = TRUE)) %>%
+    as.data.frame()
+  
+  output$stats <- renderPlotly({
+    ggplotly(
+    ggplot(gametime, aes_string("matchDuration", input$teamstats, color="Winner")) + geom_line() + 
+      xlab("Match Duration (s)") + ylab("Team Stats") +
+      theme(
+        axis.title.x = element_text(),
+        axis.title.y = element_text(),
+        panel.background = element_blank(),
+        panel.grid.major = element_line(colour='grey'),
+        panel.border = element_rect(color = 'grey', fill=NA)
+      )
+    ) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+      xaxis = list(title = "Match Duration (s)", anchor="free"),
+                 yaxis = list(title = "Team Stats", anchor="free"),
+                 legend = list(title = "Winner", orientation = "h", xanchor = "center",
+                               yanchor = "top", y = -0.12, x = 0.54)) %>%
+      add_annotations( text="Winner", xref="paper", yref="paper",
+                       x=0.43, xanchor="center",
+                       y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
+  })
   
   ####### Parallel Coordinates Plot #######
   
@@ -105,11 +206,11 @@ shinyServer(function(input, output) {
     
   })
   
-  vals <- reactive({
-    data <- data.frame(rnorm(input$num))})
-  output$hist <- renderPlot({
-    ggplot(vals(), aes(vals()[1])) + geom_histogram()
-  })
+  # vals <- reactive({
+  #   data <- data.frame(rnorm(input$num))})
+  # output$hist <- renderPlot({
+  #   ggplot(vals(), aes(vals()[1])) + geom_histogram()
+  # })
 
 })
 
