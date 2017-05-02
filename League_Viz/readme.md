@@ -18,6 +18,8 @@ The following packages are needed for running this visualization:
 - `shinythemes`
 - `tidyr`
 
+To run this, please run `shiny::runGitHub(“riot”,username=“CameronSCarlin”,subdir = “League_viz”)`
+
 ## Summary
 
 To be brief, all of the data visualized in this application are distinguishing factors that differentiate likelihood of winning and playstyle. Having a team that works together, and therefore having a team that assists one another, ultimately leads to a higher likelihood of winning. The champion one selects also matters due to their individual skills, strengths, and weaknesses. Ultimately, things like gold collection and kills have a different impact on game outcome based on when they occur in a given game. Lastly, an individual's rank, or skill level, gives insight as to how well they are playing League of Legends, and the roles played also can show clear distinctions within their end game statistics.
