@@ -8,13 +8,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
   navbarPage("The Twisted Plotline: League of Legends Data Visualization",
 ####### Overview #######
              tabPanel('Overview',
-                      sidebarPanel(
-                        
-                      ),
-                      mainPanel(
-                        includeMarkdown('overview.md'),
-                        plotOutput('hist')
-                      )
+                      includeMarkdown('overview.md')
                     ),
 ####### Teamwork #######
       tabPanel('Teamwork: Kills vs. Assists',
