@@ -28,6 +28,17 @@ The raw data were collected via as 10 JSON files, each contains 100 matches with
 
 ## UI
 
+![IMAGE](viz1.png)
+
+![IMAGE](viz2.png)
+
+![IMAGE](viz3.png)
+
+![IMAGE](viz4.png)
+
+![IMAGE](viz5.png)
+
+
 ## Summary
 
 ## Screenshots
