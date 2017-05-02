@@ -1,7 +1,7 @@
 # The Twisted Plotline
 | **Name**  | Cameron Carlin, Soi Chong Ma (Albert)  |
 |----------:|:-------------|
-| **Email** | c@dons.usfca.edu <br /> sma21@dons.usfca.edu|
+| **Email** | CameronSCarlin@gmail.com <br /> sma21@dons.usfca.edu|
 
 ## Introduction
 This visualization focuses on the popular game League of Legends, a 5 vs 5 team based game where the goal is to destroy opponent’s base. The data set mainly consists of the game statistics of each match.
