@@ -94,10 +94,10 @@ shinyServer(function(input, output) {
       ) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
                    xaxis = list(tickangle = 30),
                    legend = list(title = "Winner", orientation = "h", xanchor = "center",
-                                 yanchor = "top", y = -0.12, x = 0.54)) %>%
+                                 yanchor = "top", y = -0.14, x = 0.54)) %>%
         add_annotations( text="Winner", xref="paper", yref="paper",
                          x=0.43, xanchor="center",
-                         y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
+                         y=-0.149, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
     } else {
       bandf <- matchdf2 %>% 
         group_by(matchteamId, winner, ban1, ban2, ban3) %>%
@@ -127,10 +127,10 @@ shinyServer(function(input, output) {
       )) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
                     xaxis = list(tickangle = 30),
                     legend = list(title = "Winner", orientation = "h", xanchor = "center",
-                                  yanchor = "top", y = -0.12, x = 0.54)) %>%
+                                  yanchor = "top", y = -0.14, x = 0.54)) %>%
         add_annotations( text="Winner", xref="paper", yref="paper",
                          x=0.43, xanchor="center",
-                         y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE) 
+                         y=-0.149, yanchor="top", legendtitle=TRUE, showarrow=FALSE) 
     }
   )
   
@@ -164,10 +164,10 @@ shinyServer(function(input, output) {
       xaxis = list(title = "Match Duration (s)", anchor="free"),
                  yaxis = list(title = "Team Stats", anchor="free"),
                  legend = list(title = "Winner", orientation = "h", xanchor = "center",
-                               yanchor = "top", y = -0.12, x = 0.54)) %>%
+                               yanchor = "top", y = -0.13, x = 0.54)) %>%
       add_annotations( text="Winner", xref="paper", yref="paper",
                        x=0.43, xanchor="center",
-                       y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
+                       y=-0.139, yanchor="top", legendtitle=TRUE, showarrow=FALSE)
   })
   
   ####### Parallel Coordinates Plot #######

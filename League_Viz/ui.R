@@ -18,7 +18,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                                     label = "Add Fitlines?",
                                                     choices = c('Yes!'='fit')),
                                  includeText('teamwork.txt')),
-                          column(9,  plotlyOutput('teamwork', height='850'))
+                          column(9,  plotlyOutput('teamwork', height='600'))
                  )
                )
                ),
@@ -32,7 +32,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                                              ), 
                                               selected = "pick"),
                                  includeText('champions.txt')),
-                          column(9, plotlyOutput('pickbanplot', height='850'))
+                          column(9, plotlyOutput('pickbanplot', height='600'))
                  )
                )
     ),
@@ -47,7 +47,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                            "Assists Total" = "teamAssists"), 
                             selected = "teamGold"),
                includeText('gold.txt')),
-               column(9, plotlyOutput('stats', height='850'))
+               column(9, plotlyOutput('stats', height='600'))
                )
              )
     ),
@@ -61,7 +61,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                                         'Champion Role' = 'Role'),
                                             selected = "Winner"),
                                             includeMarkdown('pcp.md')),
-                               column(9, plotlyOutput("parcoordplot", height='850', width='auto'))
+                               column(9, plotlyOutput("parcoordplot", height='600', width='auto'))
 
                )
              )
