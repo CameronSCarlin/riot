@@ -36,11 +36,12 @@ shinyServer(function(input, output) {
     if (length(input$fitline_teamwork) == 1){
     ggplotly(ggplot(match_subset, aes(x=Kills, y=Assists))+
                                   geom_count(aes(color=Winner), alpha=0.5)+
-                                  geom_smooth(method='lm',aes(color=Winner))+
+                                  geom_smooth(method='lm', se = FALSE ,aes(color=Winner))+
                                   xlab('Number of Kills')+
                                   ylab('Number of Assists')+
                                   scale_x_continuous(breaks=c(0,5,10,15,20,25))+
                                   scale_y_continuous(breaks=c(0,5,10,15,20,25))+
+                                  scale_color_manual(values = c("#BC403E", "#5285C4")) +
                                   theme(
                                     axis.title.x = element_text(),
                                     axis.title.y = element_text(),
@@ -55,6 +56,7 @@ shinyServer(function(input, output) {
                                              ylab('Number of Assists')+
                                              scale_x_continuous(breaks=c(0,5,10,15,20,25,30))+
                                              scale_y_continuous(breaks=c(0,5,10,15,20,25,30))+
+                                             scale_color_manual(values = c("#BC403E", "#5285C4"))+
                                              theme(
                                                axis.title.x = element_text(),
                                                axis.title.y = element_text(),
@@ -80,7 +82,8 @@ shinyServer(function(input, output) {
       d_s$championName <- factor(d_s$championName, levels = rev(top10))
       ggplotly(
         ggplot(d_s, aes(x = championName, fill = factor(winner))) +
-        geom_bar() + xlab("Picked Champions") + ylab("Count") +
+        geom_bar(alpha=0.8, position = "dodge") + xlab("Picked Champions") + ylab("Count") +
+          scale_fill_manual(values = c("#BC403E", "#5285C4")) +
           theme(
             axis.title.x = element_text(),
             axis.title.y = element_text(),
@@ -88,7 +91,7 @@ shinyServer(function(input, output) {
             panel.grid.major = element_line(colour='grey'),
             panel.border = element_rect(color = 'grey', fill=NA)
           )
-      ) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+      ) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
                    xaxis = list(tickangle = 30),
                    legend = list(title = "Winner", orientation = "h", xanchor = "center",
                                  yanchor = "top", y = -0.12, x = 0.54)) %>%
@@ -113,14 +116,15 @@ shinyServer(function(input, output) {
       d_s$ban <- factor(d_s$ban, levels = rev(top10))
       ggplotly(
         ggplot(d_s, aes(x = ban, fill = factor(winner))) +
-        geom_bar() + xlab("Banned Champions") + ylab("Count") +
+        geom_bar(alpha=0.8, position = "dodge") + xlab("Banned Champions") + ylab("Count") +
+          scale_fill_manual(values = c("#BC403E", "#5285C4")) +
           theme(
             axis.title.x = element_text(),
             axis.title.y = element_text(),
             panel.background = element_blank(),
             panel.grid.major = element_line(colour='grey'),
             panel.border = element_rect(color = 'grey', fill=NA)
-      )) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+      )) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
                     xaxis = list(tickangle = 30),
                     legend = list(title = "Winner", orientation = "h", xanchor = "center",
                                   yanchor = "top", y = -0.12, x = 0.54)) %>%
@@ -129,45 +133,6 @@ shinyServer(function(input, output) {
                          y=-0.128, yanchor="top", legendtitle=TRUE, showarrow=FALSE) 
     }
   )
-  
-  
-  
-  
-  ####### Game Time #######
-  
-  # teamstats <- function(x){
-  #   a <- c()
-  #   for(i in 1:nrow(matchdf[paste0(x,'ZeroToTen')])){
-  #     if(matchdf$matchDuration[i]/60-10 > 0){
-  #       a[i] <- matchdf[paste0(x,'ZeroToTen')][i,] * 10
-  #       if(matchdf$matchDuration[i]/60-20 > 0){
-  #         a[i] <- a[i] + matchdf[paste0(x,'TenToTwenty')][i,] * 10
-  #         if(matchdf$matchDuration[i]/60-30 > 0){
-  #           a[i] <- a[i] + matchdf[paste0(x,'TwentyToThirty')][i,] * 10
-  #           if(matchdf$matchDuration[i]/60-40 > 0){
-  #             a[i] <- a[i] + matchdf[paste0(x,'ThirtyToEnd')][i,] * 10
-  #           } else {
-  #             a[i] <- a[i] + matchdf[paste0(x,'TwentyToThirty')][i,] * (matchdf$matchDuration[i]/60 - 30)
-  #           }
-  #         } else {
-  #           a[i] <- a[i] + matchdf[paste0(x,'TenToTwenty')][i,] * (matchdf$matchDuration[i]/60 - 20)
-  #         }
-  #       } else {
-  #         a[i] <- a[i] + matchdf[paste0(x,'ZeroToTen')][i,] * (matchdf$matchDuration[i]/60 - 10)
-  #       }
-  #     } else {
-  #       a[i] <- a[i] + matchdf[paste0(x,'ZeroToTen')][i,] * (matchdf$matchDuration[i]/60)
-  #     }
-  #   }
-  #   return(a)
-  # }
-  # 
-  # matchdf["endGold"] <- teamstats('gold')
-  # matchdf["endDamage"] <- teamstats('damage')
-  # matchdf["endCreeps"] <- teamstats('creeps')
-  # matchdf["endXp"] <- teamstats('xp')
-  
-  
   
   gametime <- matchdf2[c("matchteamId", "matchDuration", "winner", "kills", "deaths", "assists", 
                         "endGold", "endDamage", "endCreeps", "endXp")]
@@ -185,8 +150,9 @@ shinyServer(function(input, output) {
   
   output$stats <- renderPlotly({
     ggplotly(
-    ggplot(gametime, aes_string("matchDuration", input$teamstats, color="winner")) + geom_line() + 
-      xlab("Match Duration (s)") + ylab("Team Stats") +
+    ggplot(gametime, aes_string("matchDuration", input$teamstats, color="winner")) + geom_line(alpha=0.8) + 
+      xlab("Match Duration (s)") + ylab("Team Stats") + 
+      scale_color_manual(values = c("#BC403E", "#5285C4")) +
       theme(
         axis.title.x = element_text(),
         axis.title.y = element_text(),
@@ -194,7 +160,7 @@ shinyServer(function(input, output) {
         panel.grid.major = element_line(colour='grey'),
         panel.border = element_rect(color = 'grey', fill=NA)
       )
-    ) %>% layout(margin = list(l=-50, r=0, b=50, t=50, pad=0),
+    ) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
       xaxis = list(title = "Match Duration (s)", anchor="free"),
                  yaxis = list(title = "Team Stats", anchor="free"),
                  legend = list(title = "Winner", orientation = "h", xanchor = "center",

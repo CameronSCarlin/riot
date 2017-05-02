@@ -18,14 +18,14 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                     ),
 ####### Teamwork #######
       tabPanel('Teamwork: Kills vs. Assists',
-               plotlyOutput('teamwork'),
-               sidebarPanel(
-                 checkboxGroupInput(inputId = "fitline_teamwork",
-                               label = "Add Fitlines?",
-                               choices = c('Yes!'='fit'))
-                 ),
-               mainPanel(
-                 includeText('teamwork.txt')
+               fluidPage(
+                 fluidRow(column(3,
+                                 checkboxGroupInput(inputId = "fitline_teamwork",
+                                                    label = "Add Fitlines?",
+                                                    choices = c('Yes!'='fit')),
+                                 includeText('teamwork.txt')),
+                          column(9,  plotlyOutput('teamwork', height='850'))
+                 )
                )
                ),
 ####### Champ Select #######
@@ -38,7 +38,7 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                                              ), 
                                               selected = "pick"),
                                  includeText('champions.txt')),
-                          column(9, plotlyOutput('pickbanplot', height='700'))
+                          column(9, plotlyOutput('pickbanplot', height='850'))
                  )
                )
     ),
@@ -53,26 +53,29 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
                                            "Assists Total" = "teamAssists"), 
                             selected = "teamGold"),
                includeText('gold.txt')),
-               column(9, plotlyOutput('stats', height='700'))
+               column(9, plotlyOutput('stats', height='850'))
                )
              )
     ),
 ####### ADC / Support #######
     tabPanel('Player Differentiation',
-             plotlyOutput("parcoordplot", height='500', width='auto'),
-             sidebarPanel(
-               radioButtons('parcoordInput',label='Select Factor',
-                           choices = c('Win vs. Loss' = 'Winner',
-                                       'Player Rank' = 'Rank',
-                                       'Champion Role' = 'Role'))
-             ),
-             mainPanel(
-               includeMarkdown('pcp.md')
+             fluidPage(
+               fluidRow(column(3,
+                               radioButtons('parcoordInput',label='Select Factor',
+                                            choices = c('Win vs. Loss' = 'Winner',
+                                                        'Player Rank' = 'Rank',
+                                                        'Champion Role' = 'Role'),
+                                            selected = "Winner"),
+                                            includeMarkdown('pcp.md')),
+                               column(9, plotlyOutput("parcoordplot", height='850', width='auto'))
+
+               )
              )
              
              
     )
   )
+
 )
 )
 
