@@ -7,6 +7,17 @@
 
 League of Legends is a 5 vs. 5 team based multiplayer game where the goal is to try to destroy the base of the opposing team. This is done by killing enemies and strong neutral monsters like Dragons and Barons, with the goal of destroying towers and the opponent's Nexus. Each person playing plays a particular character, called a champion, with a unique role and set of abilities that have individual strengths and weaknesses. Together, a team with strong teamwork and diverse roles ultimately has the best opportunity of success. 
 
+The following packages are needed for running this visualization:
+
+- `ggplot2`
+- `dplyr`
+- `GGally`
+- `ggplot2`
+- `plotly`
+- `shiny`
+- `shinythemes`
+- `tidyr`
+
 ## Summary
 
 To be brief, all of the data visualized in this application are distinguishing factors that differentiate likelihood of winning and playstyle. Having a team that works together, and therefore having a team that assists one another, ultimately leads to a higher likelihood of winning. The champion one selects also matters due to their individual skills, strengths, and weaknesses. Ultimately, things like gold collection and kills have a different impact on game outcome based on when they occur in a given game. Lastly, an individual's rank, or skill level, gives insight as to how well they are playing League of Legends, and the roles played also can show clear distinctions within their end game statistics.
@@ -30,6 +41,7 @@ The raw data were collected via as 10 JSON files, each contains 100 matches with
 - Player Ranks
 - Champions
 - Champions Roles
+- Winner
 
 ## UI
 
@@ -41,15 +53,15 @@ The raw data were collected via as 10 JSON files, each contains 100 matches with
 
 ![IMAGE](viz2.png)
 
-- The second plot...blah blah blah
+- The second plot displays histogram of which champion has the highest picks. It also has the option for user to look at which champion has the highest number of bans. The goal of this plot is to provide insights of which champion is most popular in gmae.
 
 ![IMAGE](viz3.png)
 
-- The third plot...
+- The third plot is a line plot of different team statistics such as gold earned against total duration of the match. The line plot is distinguished by the winning and losing team such that one could gain insights which match statistics matters the most. User can interact this plot by choosing different types of match statistics.
 
 ![IMAGE](viz4.png)
 
-- The fourth plot...
+- The fourth plot is a parallel coordinate plot showing the links among different match statistics. Furthermore this plot can be grouped by not only winning/losing teams but it can also be grouped by champion roles and player ranks.
 
 ![IMAGE](viz5.png)
 
