@@ -76,7 +76,7 @@ tabPanel('Champion Tree Map',
                                         choices = c('Win' = 'Yes',
                                                     'Lose' = 'No'),
                                         selected = "Yes"),
-                           includeMarkdown('pcp.md')),
+                           includeMarkdown('tree.md')),
                     column(9, d3tree2Output("treemap", height='700', width='auto'))
                     
            )
