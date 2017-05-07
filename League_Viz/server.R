@@ -6,6 +6,7 @@ library(dplyr)
 library(tidyr)
 library(treemap)
 library(d3treeR)
+library(zoo)
 
 shinyServer(function(input, output) {
   
