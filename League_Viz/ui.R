@@ -67,7 +67,22 @@ shinyUI(fluidPage(theme = shinytheme('flatly'),
              )
              
              
-    )
+    ),
+tabPanel('Champion Tree Map',
+         fluidPage(
+           fluidRow(column(3,
+                           radioButtons('champtree',label='Select Match Outcome',
+                                        choices = c('Win' = 'Yes',
+                                                    'Lose' = 'No'),
+                                        selected = "Yes"),
+                           includeMarkdown('pcp.md')),
+                    column(9, d3tree2Output("treemap", height='700', width='auto'))
+                    
+           )
+         )
+         
+         
+)
   )
 
 )
