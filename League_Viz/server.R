@@ -83,10 +83,12 @@ shinyServer(function(input, output) {
       top10 <- tail(names(tab_s), 20)
       d_s <- subset(matchdf2, championName %in% top10)
       d_s$championName <- factor(d_s$championName, levels = rev(top10))
+      d_s <- as.data.frame(table(d_s[c("championName", "winner")]))
       ggplotly(
-        ggplot(d_s, aes(x = championName, fill = factor(winner))) +
-        geom_bar(alpha=0.8, position = "dodge") + xlab("Picked Champions") + ylab("Count") +
-          scale_fill_manual(values = c("#BC403E", "#5285C4")) +
+        ggplot(d_s, aes(x = championName,y = Freq, fill = winner)) + 
+          geom_bar(alpha = 0.8, stat = "identity",position = "dodge") + 
+          xlab("Picked Champions") + ylab("Count") +
+          scale_fill_manual(values = c("#BC403E", "#5285C4")) + 
           theme(
             axis.title.x = element_text(),
             axis.title.y = element_text(),
@@ -95,7 +97,7 @@ shinyServer(function(input, output) {
             panel.border = element_rect(color = 'grey', fill=NA)
           )
       ) %>% layout(margin = list(l=-50, r=20, b=0, t=50, pad=0),
-                   xaxis = list(tickangle = 30),
+                   xaxis = list(tickangle = 30, autorange = FALSE),
                    legend = list(title = "Winner", orientation = "h", xanchor = "center",
                                  yanchor = "top", y = -0.14, x = 0.54)) %>%
         add_annotations( text="Winner", xref="paper", yref="paper",
