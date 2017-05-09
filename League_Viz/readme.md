@@ -11,12 +11,15 @@ The following packages are needed for running this visualization:
 
 - `ggplot2`
 - `dplyr`
+- `d3treeR`
 - `GGally`
 - `ggplot2`
 - `plotly`
 - `shiny`
 - `shinythemes`
 - `tidyr`
+- `treemap`
+- `zoo`
 
 To run this, please run `shiny::runGitHub(“riot”,username=“CameronSCarlin”,subdir = “League_viz”)`
 
